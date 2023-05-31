@@ -19,7 +19,7 @@ indent_style = space
 indent_size = 4
 
 # 2 space indentation
-[*.{vue,scss,ts}]
+[*.{vue,scss,ts,js}]
 indent_style = space
 indent_size = 2
 
