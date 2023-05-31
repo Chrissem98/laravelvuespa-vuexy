@@ -1,5 +1,8 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth'
 import avatar1 from '@images/avatars/avatar-1.png'
+
+const auth = useAuthStore()
 </script>
 
 <template>
@@ -111,7 +114,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem @click.prevent="auth.logout()">
             <template #prepend>
               <VIcon
                 class="me-2"

@@ -10,14 +10,23 @@ import authV2MaskDark from '@images/pages/misc-mask-dark.png'
 import authV2MaskLight from '@images/pages/misc-mask-light.png'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
+import { useAuthStore } from '@/stores/auth'
 
+const auth = useAuthStore()
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
 const isPasswordVisible = ref(false)
 const refVForm = ref()
-const email = ref('admin@demo.com')
-const password = ref('admin')
-const rememberMe = ref(false)
+
+// const email = ref('admin@demo.com')
+// const password = ref('admin')
+// const rememberMe = ref(false)
+
+const form = ref({
+  email: 'test@example.com',
+  password: 'password',
+  remeber: false,
+})
 </script>
 
 <template>
@@ -88,13 +97,13 @@ const rememberMe = ref(false)
         <VCardText>
           <VForm
             ref="refVForm"
-            @submit="() => { }"
+            @submit.prevent="auth.login(form)"
           >
             <VRow>
               <!-- email -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="email"
+                  v-model="form.email"
                   label="Email"
                   type="email"
                   autofocus
@@ -104,7 +113,7 @@ const rememberMe = ref(false)
               <!-- password -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="password"
+                  v-model="form.password"
                   label="Password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
@@ -113,7 +122,7 @@ const rememberMe = ref(false)
 
                 <div class="d-flex align-center flex-wrap justify-space-between mt-2 mb-4">
                   <VCheckbox
-                    v-model="rememberMe"
+                    v-model="form.remember"
                     label="Remember me"
                   />
                   <a
@@ -180,4 +189,5 @@ const rememberMe = ref(false)
 <route lang="yaml">
 meta:
   layout: blank
+  requiresGuest: true
 </route>
