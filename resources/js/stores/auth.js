@@ -22,8 +22,6 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axios.get('/api/user')
 
-        console.log({ data: response.data })
-
         this.authUser = response.data
 
         return response
@@ -38,9 +36,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         await axios.post('/login', payload)
 
-        await this.getAuthUser()
-
-        if(this.loggedIn) router.push({ name: "index" })
+        return await this.getAuthUser()
       } catch (error) {
         console.warn({ error })
 

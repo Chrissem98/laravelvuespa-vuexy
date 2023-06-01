@@ -11,7 +11,10 @@ import authV2MaskLight from '@images/pages/misc-mask-light.png'
 import { VNodeRenderer } from '@layouts/components/VNodeRenderer'
 import { themeConfig } from '@themeConfig'
 import { useAuthStore } from '@/stores/auth'
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
+const router = useRouter()
 const auth = useAuthStore()
 const authThemeImg = useGenerateImageVariant(authV2LoginIllustrationLight, authV2LoginIllustrationDark, authV2LoginIllustrationBorderedLight, authV2LoginIllustrationBorderedDark, true)
 const authThemeMask = useGenerateImageVariant(authV2MaskLight, authV2MaskDark)
@@ -27,6 +30,14 @@ const form = ref({
   password: 'password',
   remeber: false,
 })
+
+const login = () => {
+  auth.login(form.value)
+    .then(r => {
+      // Redirect to `redirect` query if exist or redirect to index route
+      router.replace(route.query.redirect ? String(route.query.redirect) : '/')
+    })
+}
 </script>
 
 <template>
@@ -97,7 +108,7 @@ const form = ref({
         <VCardText>
           <VForm
             ref="refVForm"
-            @submit.prevent="auth.login(form)"
+            @submit.prevent="login"
           >
             <VRow>
               <!-- email -->
